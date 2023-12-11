@@ -1,0 +1,41 @@
+{% extends "entrada/base_entrada.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <h4>{{ entrada.title }} </h4>
+    <hr>
+    <h6>Categoria: {{ entrada.category }}</h6>
+    <h6>Tags: {% for tag in entrada.tag.all %} <span class="badge bg-info text-white" style="font-size: 10px;">{{ tag }}</span> {% endfor %}</h6>
+    <div class="row mb-5 mt-2">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Resumen
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ entrada.resume }}</p>
+                </div>
+            </div>
+            <p>{{ entrada.content|safe }}</p>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ entrada.image.url }}" class="img-fluid" alt="...">
+                <div class="card-body">
+                    <form method="post" action="{% url 'favoritos_app:add-favorite' entrada.id %}">
+                        {% csrf_token %}
+                        <center><button type="submit" class="btn btn-outline-success btn-sm">Agregar Favoritos</button></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "includes/formulario-contacto.html" %}
+
+{% endblock content %}

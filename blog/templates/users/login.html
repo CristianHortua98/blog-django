@@ -1,0 +1,61 @@
+{% extends "entrada/base_entrada.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-3">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <img src="{% static 'img/blog.jpg' %}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title"><center><h5>Acceder <b>MyBlog</b></h5></center></h5>
+                            <hr>
+                            <form method="post" enctype="multipart/form-data" action="{% url 'users_app:user-login' %}">
+                                {% csrf_token %}
+
+                                <label for="email" class="form-label">Email</label>
+                                {{ form.email}}
+                                
+                                <br>
+
+                                <label for="password" class="form-label">Contraseña</label>
+                                {{ form.password}}
+
+                                <div class="d-grid gap-2 mt-3">
+                                    <button type="submit" class="btn btn-outline-success btn-block">Ingresar</button>
+                                    <a href="{% url 'users_app:user-register' %}" class="btn btn-outline-primary">Registrarse</a>
+                                </div>
+                            </form>
+                            {% if form.errors %}
+
+                                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                                    {% for field, error_msgs in form.errors.items %}
+                                        {% for error_msg in error_msgs %}
+                                            <p>{{ error_msg }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    
+        
+</div>
+
+
+{% endblock content %}

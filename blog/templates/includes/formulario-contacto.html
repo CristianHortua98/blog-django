@@ -1,0 +1,43 @@
+<div class="row" style="background-color: #EEEEEE;">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 mt-3 mb-3">
+        <h5>Formulario Contacto</h5>
+        <hr>
+        <form method="post" action="{% url 'home_app:contact-create' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="full_name" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" name="full_name" id="id_full_name" placeholder="Nombres" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Correo</label>
+                    <input type="email" class="form-control" name="email" id="id_email" placeholder="Correo" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="message" class="form-label">Mensaje</label>
+                    <textarea class="form-control" name="message" id="id_message" placeholder="Mensaje" required></textarea>
+                </div>
+            </div>
+            <br>
+            <center><button type="submit" class="btn btn-success">Enviar</button></center>
+        </form>
+        <hr>
+        <h5>Otras formas de Contacto</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Telefono: </label>
+                <span class="badge bg-info text-white">{{ phone }}</span>
+            </div>
+            <div class="col-md-6">
+                <label>Correo: </label>
+                <span class="badge bg-info text-white">{{ correo }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+
+</div>

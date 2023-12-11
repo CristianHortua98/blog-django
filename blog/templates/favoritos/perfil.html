@@ -1,0 +1,56 @@
+{% extends "favoritos/base_favoritos.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.full_name}}</h5>
+                    <p class="card-text">
+                        Correo: {{ user.email }}
+                        <br>
+                        Ocupacion: {{ user.ocupation }}
+                        <br>
+                        Fecha Nacimiento: {{ user.date_birth }}
+                    </p>
+                    <a href="" class="btn btn-outline-primary">Editar Datos</a>
+                    <a href="{% url 'users_app:user-logout' %}" class="btn btn-outline-danger">Salir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+
+            {% for entrada in entradas_user %}
+
+            <div class="card shadow-sm mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ entrada.entry.image.url }}" style="height: 200px;" class="img-fluid rounded-start" alt="{{ entrada.entry.title }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ entrada.entry.title }}</h5>
+                            <p class="card-text">{{ entrada.entry.resume|truncatechars:100 }}</p>
+                            <form method="post" action="{% url 'favoritos_app:delete-favorite' entrada.id %}">
+                                <a href="{% url 'entrada_app:entry-detail' entrada.entry.id %}" class="btn btn-outline-info">Ver</a>
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include "includes/formulario-contacto.html" %}
+
+{% endblock content %}

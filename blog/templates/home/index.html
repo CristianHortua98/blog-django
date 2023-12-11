@@ -1,0 +1,101 @@
+{% extends "home/base_home.html" %}
+
+{% load static %}
+
+{% block title %}
+
+{{ home.title }}
+
+{% endblock title %}
+
+{% block description %}
+
+<meta name="description" content="{{ home.description }}">
+
+{% endblock description %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row mb-5">
+        <!-- PORTADA -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <img src="{{ portada.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a href="{% url 'entrada_app:entry-detail' portada.slug %}"><h5 class="card-title">{{ portada.title }}</h5></a>
+                    <p class="card-text">{{ portada.resume }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                {% for home in entradas_home %}
+                
+                    <div class="col-sm-6 col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="{{ home.image.url }}" style="height: 14rem;" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <a href="{% url 'entrada_app:entry-detail' home.slug %}"><h5 class="card-title">{{ home.title|truncatechars:20 }}</h5></a>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4>{{ home.about_title }}</h4>
+                    <p class="card-text">{{ home.about_text }}</p>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSuscribirme">Suscribirme</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="mb-3">Articulos Recientes:</h4>
+    <div class="row mb-3">
+        {% for reciente in entradas_recientes %}
+            <div class="col-sm-6 col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <img src="{{ reciente.image.url }}" style="height: 14rem;" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a href="{% url 'entrada_app:entry-detail' reciente.slug %}"><h5 class="card-title">{{ reciente.title|truncatechars:20 }}</h5></a>
+                        <p class="card-text">{{ reciente.resume|truncatechars:30 }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include "includes/formulario-contacto.html" %}
+
+<div class="modal fade" id="modalSuscribirme">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ingresa tu correo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'home_app:home' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{ form.email }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Suscribirme</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+    
